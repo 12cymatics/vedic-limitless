@@ -1,12 +1,9 @@
-Vedic Limitless
+# Vedic Limitless
 
-Full fidelity exact rational arithmetic simulation engine ported from vedic_v18.20.
+Full simulation engine from vedic_v18.20_s16_bounded.html with unbounded exact ℚ arithmetic (no MAXD/MAXN compression) and built-in Lean 4 verification methods.
 
-Features:
-- Unbounded exact ℚ (BigInt rationals)
-- 29 Vedic sutra operators
-- Mat8K Hamiltonian over K=ℚ(√2,i)
-- Built-in Lean 4 style verification
-- Temporal dispatch, wormhole detection, etc.
+The core is limitless. The mathematical invariants are preserved exactly.
 
-This is the limitless version without browser compression bounds.
+See vedic_v18.20_s16_bounded.html for the intact simulation engine.
+
+Lean 4 verification is integrated in the core.
