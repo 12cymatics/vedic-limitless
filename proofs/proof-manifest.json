@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "project": "Vedic Exact Studio",
+  "branch": "commercial/exactwave-launch",
+  "authority": "pinned Lean build plus exact runtime refinement",
+  "releaseBlocked": true,
+  "modules": [
+    {
+      "id": "scalar-field-bootstrap",
+      "runtime": null,
+      "lean": ["Exact.Bootstrap.rational_add_zero", "Exact.Bootstrap.rational_mul_one", "Exact.Bootstrap.rational_square_nonnegative"],
+      "status": "draft-uncompiled",
+      "jira": "MP-3"
+    },
+    {"id": "walsh-hadamard", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-4"},
+    {"id": "sutras-01-29", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-5"},
+    {"id": "grvq", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-6"},
+    {"id": "mstvq", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-6"},
+    {"id": "tgcr", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-7"},
+    {"id": "maya", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-7"},
+    {"id": "r4-r4v4", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-4"},
+    {"id": "magneto-stress-tension", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-8"},
+    {"id": "runtime-proof-refinement", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-9"},
+    {"id": "openai-evidence-assistant", "runtime": "server.mjs", "lean": [], "status": "non-authoritative-read-only", "jira": "MP-11"}
+  ]
+}
