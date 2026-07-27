@@ -1,26 +1,94 @@
 {
-  "schemaVersion": 1,
+  "schema": "vedic-exact-proof-manifest/v1",
   "project": "Vedic Exact Studio",
   "branch": "commercial/exactwave-launch",
-  "authority": "pinned Lean build plus exact runtime refinement",
+  "authoritativeRule": "implementation-path-is-authoritative-only-after-pinned-lean-build-and-runtime-refinement-pass",
+  "exactScalarRuntime": "Q(sqrt(2),sqrt(5),i)",
+  "formalCoreScalar": "QComplex over rational coefficients; algebraic-extension refinement required for radical basis transport",
   "releaseBlocked": true,
-  "modules": [
+  "buildStatus": {
+    "localExecutableTests": "passed-16-of-16",
+    "localStaticProofPolicyTests": "passed-3-of-3",
+    "leanCompilation": "not-run-local-lean-unavailable",
+    "authoritativeRelease": "blocked-until-pinned-ci-passes"
+  },
+  "obligations": [
     {
-      "id": "scalar-field-bootstrap",
-      "runtime": null,
-      "lean": ["Exact.Bootstrap.rational_add_zero", "Exact.Bootstrap.rational_mul_one", "Exact.Bootstrap.rational_square_nonnegative"],
+      "module": "Cayley",
+      "implementation": ["C4.phase", "rotatePairInState"],
+      "theorems": ["cayley_unit", "rotatePair_energy"],
       "status": "draft-uncompiled",
+      "jira": "MP-6"
+    },
+    {
+      "module": "R4",
+      "implementation": ["r4Reinforced", "r4Reciprocal"],
+      "theorems": ["r4_dual_term", "r4_dual_product", "r4_sign_invariant", "r4_zero_radius"],
+      "status": "draft-uncompiled",
+      "jira": "MP-6"
+    },
+    {
+      "module": "MAYA",
+      "implementation": ["applyMaya"],
+      "theorems": ["maya_point_norm", "maya_energy_preserved"],
+      "status": "draft-uncompiled",
+      "jira": "MP-6"
+    },
+    {
+      "module": "TGCR",
+      "implementation": ["applyTGCR"],
+      "theorems": ["tgcr_point_norm", "tgcr_energy_preserved"],
+      "status": "draft-uncompiled",
+      "jira": "MP-6"
+    },
+    {
+      "module": "MAGNETO_STRESS_TENSION",
+      "implementation": ["computeWheeler", "exactGeometry"],
+      "theorems": ["dot_cross_left", "dot_cross_right", "magnetoStress_symmetric", "tension_nonnegative", "tension_zero_iff"],
+      "status": "draft-uncompiled",
+      "jira": "MP-6"
+    },
+    {
+      "module": "SUTRA_S22",
+      "implementation": ["applySutra(22)"],
+      "theorems": ["comp16_involution", "s22_idempotent"],
+      "status": "draft-uncompiled",
+      "jira": "MP-4"
+    },
+    {
+      "module": "SUTRAS_1_29",
+      "implementation": ["applySutra", "applySutraCore"],
+      "theorems": [],
+      "status": "blocked-proof-expansion-required",
+      "jira": "MP-4"
+    },
+    {
+      "module": "GRVQ",
+      "implementation": ["applyGRVQ"],
+      "theorems": [],
+      "status": "blocked-proof-expansion-required",
+      "jira": "MP-6"
+    },
+    {
+      "module": "MSTVQ",
+      "implementation": ["applyMSTVQ"],
+      "theorems": [],
+      "status": "blocked-proof-expansion-required",
+      "jira": "MP-6"
+    },
+    {
+      "module": "ALGEBRAIC_EXTENSION_TRANSPORT",
+      "implementation": ["A4", "C4"],
+      "theorems": [],
+      "status": "blocked-proof-expansion-required",
       "jira": "MP-3"
     },
-    {"id": "walsh-hadamard", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-4"},
-    {"id": "sutras-01-29", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-5"},
-    {"id": "grvq", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-6"},
-    {"id": "mstvq", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-6"},
-    {"id": "tgcr", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-7"},
-    {"id": "maya", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-7"},
-    {"id": "r4-r4v4", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-4"},
-    {"id": "magneto-stress-tension", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-8"},
-    {"id": "runtime-proof-refinement", "runtime": "public/exact-kernel.js", "lean": [], "status": "blocked", "jira": "MP-9"},
-    {"id": "openai-evidence-assistant", "runtime": "server.mjs", "lean": [], "status": "non-authoritative-read-only", "jira": "MP-11"}
+    {
+      "module": "OPENAI_EVIDENCE_ASSISTANT",
+      "implementation": ["server.mjs:/api/assistant"],
+      "theorems": [],
+      "status": "non-authoritative-read-only",
+      "jira": "MP-7"
+    }
   ]
 }
