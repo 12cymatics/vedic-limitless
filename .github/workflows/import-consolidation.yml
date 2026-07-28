@@ -1,0 +1,45 @@
+name: Import full consolidation archive
+
+on:
+  push:
+    branches: ["commercial/exactwave-launch"]
+    paths: ["import_payload/READY"]
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Reconstruct and verify archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat import_payload/chunk-*.b64 | tr -d '\n' | base64 --decode > /tmp/vedic_exact_studio_v20_1_consolidated.zip
+          echo "24ca1c63ff1ec261b543371ec24284c0ae498423341176a4970afe1476c5d182  /tmp/vedic_exact_studio_v20_1_consolidated.zip" | sha256sum --check --strict
+          rm -rf /tmp/ves-import
+          mkdir -p /tmp/ves-import
+          unzip -q /tmp/vedic_exact_studio_v20_1_consolidated.zip -d /tmp/ves-import
+          test "$(find /tmp/ves-import/vedic_exact_studio -type f | wc -l)" -eq 43
+      - name: Verify complete package before import
+        working-directory: /tmp/ves-import/vedic_exact_studio
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run check
+          npm test
+          npm run proof:static
+      - name: Replace staging tree with complete source
+        shell: bash
+        run: |
+          set -euo pipefail
+          rsync -a --delete --exclude='.git/' /tmp/ves-import/vedic_exact_studio/ ./
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "consolidate complete Vedic Exact Studio v20.1 source and proof inventory"
+          git push origin HEAD:commercial/exactwave-launch
