@@ -1,0 +1,51 @@
+name: Consolidate corrected PR archive
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    if: github.event.pull_request.number == 2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out PR head
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Reconstruct and verify complete package
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f import_payload/READY
+          cat import_payload/chunk-{00..03}.b64 import_payload/fix-*.b64 | tr -d '\n' | base64 --decode > /tmp/vedic_exact_studio_v20_1_consolidated.zip
+          echo "24ca1c63ff1ec261b543371ec24284c0ae498423341176a4970afe1476c5d182  /tmp/vedic_exact_studio_v20_1_consolidated.zip" | sha256sum --check --strict
+          rm -rf /tmp/ves-import
+          mkdir -p /tmp/ves-import
+          unzip -q /tmp/vedic_exact_studio_v20_1_consolidated.zip -d /tmp/ves-import
+          test "$(find /tmp/ves-import/vedic_exact_studio -type f | wc -l)" -eq 43
+      - name: Run complete local gates before import
+        working-directory: /tmp/ves-import/vedic_exact_studio
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run check
+          npm test
+          npm run proof:static
+      - name: Replace archive staging with complete source tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          rsync -a --delete --exclude='.git/' /tmp/ves-import/vedic_exact_studio/ ./
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "consolidate complete Vedic Exact Studio v20.1 source and proof inventory"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
