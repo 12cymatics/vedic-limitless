@@ -25,7 +25,7 @@ jobs:
         run: |
           set -euo pipefail
           test -f import_payload/READY
-          cat import_payload/chunk-{00..03}.b64 import_payload/fix-*.b64 | tr -d '\n' | base64 --decode > /tmp/vedic_exact_studio_v20_1_consolidated.zip
+          cat import_payload/chunk-{00..03}.b64 | tr -d '\n' | base64 --decode > /tmp/vedic_exact_studio_v20_1_consolidated.zip
           echo "24ca1c63ff1ec261b543371ec24284c0ae498423341176a4970afe1476c5d182  /tmp/vedic_exact_studio_v20_1_consolidated.zip" | sha256sum --check --strict
           rm -rf /tmp/ves-import
           mkdir -p /tmp/ves-import
